@@ -5,7 +5,8 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const index = require('./routes/index');
-const users = require('./routes/users');
+
+const authController = require('./routes/authController');
 const mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost/voting-app');
@@ -25,7 +26,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/users', users);
+app.use('/', authController);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
