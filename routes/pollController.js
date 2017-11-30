@@ -6,7 +6,8 @@ const Poll = require('../models/poll');
 const async = require('async');
 
 pollController.get('/api/polls', (req, res) => {
-  Poll.find()
+  Poll.find({})
+    .populate('options.option')
     .exec((err, polls) => {
       if (err) {
         console.log('Something went wrong when retrieving polls!', err)
@@ -17,6 +18,30 @@ pollController.get('/api/polls', (req, res) => {
     });
 });
 
+pollController.get('/api/polls/:pollId', (req, res) => {
+  const { pollId } = req.params;
+  // console.log('Coming from get single poll', pollId)
+  Poll.findById( pollId )
+    .populate('options')
+    .exec((err, poll) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      res.send(poll)
+      // console.log('Fetch poll', poll)
+    })
+})
+
+pollController.post('/api/vote/:voteId', (req, res) => {
+  const { voteId } = req.params;
+
+  PollOption
+    .findOneAndUpdate({ _id: voteId }, {$inc: { count: 1 }})
+    .exec()
+    res.send('Successfully voted');
+})
+
 pollController.post('/api/polls', (req, res) => {
     const { question, options } = req.body;
 
@@ -26,7 +51,8 @@ pollController.post('/api/polls', (req, res) => {
 
     async.each(options.split(','), (optionText, cb) => {
       let pollOption = new PollOption({
-        option: optionText
+        option: optionText,
+        pollId: newPoll._id
       });
 
       newPoll.options.push(pollOption);
