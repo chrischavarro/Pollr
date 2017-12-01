@@ -14,10 +14,11 @@ export const loginSubmit = (credentials, history) => {
   // console.log('request received', credentials);
 };
 
-export const castVote = (vote) => async dispatch => {
+export const castVote = (vote, pollId) => async dispatch => {
   const request = await axios.post(`/api/vote/${vote}`);
-console.log('vote cast')
-  dispatch({ type: CAST_VOTE, payload: request });
+
+  dispatch({ type: CAST_VOTE, payload: request })
+  dispatch(fetchPoll(`${pollId}`))
 }
 
 export const fetchPoll = (pollId) => async dispatch => {
