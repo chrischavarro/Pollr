@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchPoll, castVote } from '../actions';
 import PollChart from './PollChart';
+import { Link } from 'react-router-dom'
+
 
 class PollView extends Component {
 
@@ -11,6 +13,7 @@ class PollView extends Component {
 
   renderPoll() {
     const { options } = this.props.polls;
+    console.log(req.ip)
     if (options) {
       return options.map(option => {
         // console.log(option.option, option.count)
@@ -27,6 +30,7 @@ class PollView extends Component {
         )
       })
     }
+
   }
 
   render() {
@@ -49,17 +53,25 @@ class PollView extends Component {
     	}]
     };
 
-
-
     return (
       <div>
         <div className="card darken-2">
           <div className="card-content center-align " ref="pollResults">
             <span className="card-title">{this.props.polls.question}</span>
             <span><h5>Cast Your Vote!</h5></span>
+
             <div className="row">
+
               {this.renderPoll()}
+
               <PollChart chartData={data} />
+
+              <button className="waves-effect waves-light btn" style={{ marginTop: '15px'}}>
+              <Link to={"/polls/:pollId/edit".replace(':pollId', `${this.props.polls._id}`)} className="white-text" style={{ textDecoration: 'none'}}>
+                Edit This Poll
+              </ Link>
+              </button>
+
             </div>
           </div>
         </div>

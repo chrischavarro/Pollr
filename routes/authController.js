@@ -5,61 +5,52 @@ const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 const passport = require("passport");
+const async = require('async');
+
 
 authController.get('/api/current_user', (req, res) => {
   res.send(req.user)
-  console.log(req.user);
+  // console.log(req.user);
 });
 
 authController.get("/login", ensureLoggedOut('/surveys'), (req, res, next) => {
   res.render("auth/login");
 });
 //
-// authController.post("/api/login", (req, res, next), passport.authenticate("local", (err, user, info) => {
-//   if (err) { return next(err); }
-//   if (!user) { return 'No user found'; }
-//   req.logIn(user, function(err) {
+// authController.post("/api/login", (req, res, next),
+//   passport.authenticate("local", (err, user, info) => {
 //     if (err) { return next(err); }
-//     return user;
-//   })
-//   })
+//     if (!user) { return res.json(401, { "error": info.message }); }
+//
+//     req.logIn(user, function(err) {
+//       if (err) { return next(err); }
+//       res.send(req.user);
+//     })
+//     })
 // );
 
-// authController.post('/api/login', (req, res, next) => {
-//   const { username, password } = req.body;
-//   console.log(req.body)
-//   if (username === "" || password === "") {
-//     console.log('Enter something!')
-//   }
-//
-//   User.findOne({ username: username })
-//     .exec((err, user) => {
-//       if (err) {
-//         console.log('An error occured logging in')
-//         return;
-//       }
-//       if (!user) {
-//         console.log("user doesn't exist!")
-//         return;
-//       }
-//
-//       if (bcrypt.compareSync(password, user.password)) {
-//         req.user = user;
-//         console.log(req.user);
-//         res.redirect('/');
-//       }
-//     })
-// })
+authController.post('/api/login', function(req, res, next) {
+    passport.authenticate('local', function(err, user, info) {
+        if (err) { return next(err); }
 
-authController.post(
-  "/api/login",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/",
-    failureFlash: true,
-    passReqToCallback: true
-  })
-);
+        if (!user) { return res.json(401, { "error": info.message }); }
+
+        req.logIn(user, function(err) {
+          if (err) { return next(err); }
+          res.send('Logged in!');
+        })
+    })(req, res, next);
+});
+
+// authController.post(
+//   "/api/login",
+//   passport.authenticate("local", {
+//     successRedirect: "/",
+//     failureRedirect: "/",
+//     failureFlash: true,
+//     passReqToCallback: true
+//   })
+// );
 
 authController.get("/signup", ensureLoggedOut('/surveys'), (req, res, next) => {
   res.render("auth/signup");

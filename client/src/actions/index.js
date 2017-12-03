@@ -1,21 +1,58 @@
 import axios from 'axios';
-import { FETCH_USER, LOGIN_SUBMIT, FETCH_POLLS, FETCH_POLL, CAST_VOTE } from './types';
+import { FETCH_USER, LOGIN_SUBMIT, FETCH_POLLS, CAST_VOTE, HAS_VOTED } from './types';
+
+// export const loginSubmit = (credentials, history) => async dispatch => {
+//   console.log('Login received')
+//    const request = await axios.post('/api/login', credentials)
+//
+//     dispatch({ type: FETCH_USER, payload: request.data });
+//     dispatch(fetchUser())
+//     history.push('/')
+//
+// };
+
+// export const hasVoted()
+
+
+export const addOptions = (options, pollId, history) => {
+  axios.post(`/api/polls/${pollId}`, options)
+  history.push(`/polls/${pollId}`);
+  fetchPoll(pollId);
+}
 
 export const loginSubmit = (credentials, history) => {
    axios.post('/api/login', credentials)
-    .then((res) => console.log(res))
-
-    // dispatch({ type: FETCH_USER, payload: res.data });
-
+    .then((response) => {
+      return axios.get('/api/current_user')
+    })
+    .then((response) => {
+      // console.log('Response', response)
+      return fetchUser()
+    });
     history.push('/')
+    fetchUser();
 
-    // .then((res) => dispatch({ type: LOGIN_SUBMIT, payload: res.data })
-
-  // console.log('request received', credentials);
+    // axios.get('/api/current_user')
+     // ({ type: FETCH_USER, payload: response.data });
 };
 
+// export const loginSubmit = (credentials, history) => {
+//    axios.post('/api/login', credentials)
+//     .then((response) => {
+//       return axios.get('/api/current_user')
+//     })
+//     .then((response) => {
+//       console.log('Response', response)
+//       return { type: FETCH_USER, payload: response.data }
+//     });
+//     history.push('/')
+//
+//     // axios.get('/api/current_user')
+//      // ({ type: FETCH_USER, payload: response.data });
+// };
+
 export const castVote = (vote, pollId) => async dispatch => {
-  const request = await axios.post(`/api/vote/${vote}`);
+  const request = await axios.post(`/api/vote/${vote}`, pollId);
 
   dispatch({ type: CAST_VOTE, payload: request })
   dispatch(fetchPoll(`${pollId}`))
@@ -46,7 +83,11 @@ export const submitPoll = (values, history) => {
   // dispatch
 };
 
+export const fetchUser = () => async dispatch => {
+  const res = await axios.get('/api/current_user');
 
+  dispatch({ type: FETCH_USER, payload: res.data });
+};
 
 // export const submitPoll = (values, history) => async dispatch => {
 //   console.log(values);
@@ -56,14 +97,14 @@ export const submitPoll = (values, history) => {
 //   dispatch({ type: FETCH_POLLS, payload: res.data})
 // };
 
-// export const loginSubmit = (credentials) => async dispatch => {
-//   console.log('action received', credentials)
-//   const res = await axios.post('/api/login', credentials)
-//   dispatch({ type: LOGIN_SUBMIT, payload: res.data });
-// };
-
-export const fetchUser = () => async dispatch => {
-  const res = await axios.get('/api/current_user');
-
-  dispatch({ type: FETCH_USER, payload: res.data });
-};
+// export const loginSubmit = (credentials, history) => (async (dispatch) => {
+//   try {
+//     console.log('login action received')
+//     // const response = axios.post('/api/login', credentials)
+//     // dispatch({ type: FETCH_USER, payload: response.data })
+//     // dispatch(fetchUser())
+//     // return response.data;
+//   } catch(error) {
+//     console.log(error)
+//   }
+// })

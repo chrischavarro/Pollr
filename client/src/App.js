@@ -9,6 +9,7 @@ import LoginPage from './components/LoginPage'
 import PollNew from './components/PollNew';
 import PollsIndex from './components/PollsIndex';
 import PollView from './components/PollView';
+import PollEdit from './components/PollEdit';
 
 class App extends Component {
   componentDidMount() {
@@ -22,10 +23,11 @@ class App extends Component {
           <div className="container">
             <Header />
             <Route exact path="/" component={Home} />
-            <Route path="/login" component={LoginPage} />
-            <Route path="/polls/:pollId" component={PollView} />
-            <Route exact path="/polls" component={PollsIndex} />
             <Route exact path="/polls/new" component={PollNew} />
+            <Route exact path="/polls/:pollId" component={PollView} />
+            <Route exact path="/polls/:pollId/edit" component={PollEdit} />
+            <Route path="/login" component={LoginPage} />
+            <Route exact path="/polls" component={PollsIndex} />
           </div>
         </BrowserRouter>
       </div>
