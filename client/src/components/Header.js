@@ -5,9 +5,9 @@ import * as actions from '../actions'
 
 class Header extends Component {
   componentDidMount() {
+    // console.log('mounted header!')
     this.props.fetchUser();
   }
-
 
   renderContent() {
       switch (this.props.auth) {

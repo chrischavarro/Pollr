@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchPolls } from '../actions'
+import { fetchPolls } from '../../actions'
 import { Link } from 'react-router-dom'
 
 class PollsIndex extends Component {

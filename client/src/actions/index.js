@@ -22,18 +22,19 @@ export const addOptions = (options, pollId, history) => {
 
 export const loginSubmit = (credentials, history) => {
    axios.post('/api/login', credentials)
-    .then((response) => {
+    .then(() => {
       return axios.get('/api/current_user')
     })
     .then((response) => {
-      // console.log('Response', response)
-      return fetchUser()
+      return { type: FETCH_USER, payload: response.data };
+      console.log('Response!', response)
+
     });
     history.push('/')
-    fetchUser();
+    window.location.reload();
+
 
     // axios.get('/api/current_user')
-     // ({ type: FETCH_USER, payload: response.data });
 };
 
 // export const loginSubmit = (credentials, history) => {
@@ -85,7 +86,7 @@ export const submitPoll = (values, history) => {
 
 export const fetchUser = () => async dispatch => {
   const res = await axios.get('/api/current_user');
-
+  console.log('Fetch user action')
   dispatch({ type: FETCH_USER, payload: res.data });
 };
 

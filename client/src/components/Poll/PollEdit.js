@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { reduxForm, Field, Form } from "redux-form";
-import { addOptions } from '../actions';
-import InputField from './InputField';
+import { addOptions } from '../../actions';
+import InputField from '../InputField';
 import { withRouter } from 'react-router';
 
 

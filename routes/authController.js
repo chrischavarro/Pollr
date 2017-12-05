@@ -10,7 +10,6 @@ const async = require('async');
 
 authController.get('/api/current_user', (req, res) => {
   res.send(req.user)
-  // console.log(req.user);
 });
 
 authController.get("/login", ensureLoggedOut('/surveys'), (req, res, next) => {
@@ -37,7 +36,7 @@ authController.post('/api/login', function(req, res, next) {
 
         req.logIn(user, function(err) {
           if (err) { return next(err); }
-          res.send('Logged in!');
+          res.redirect('/');
         })
     })(req, res, next);
 });

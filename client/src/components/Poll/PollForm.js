@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { reduxForm, Field, Form } from "redux-form";
-import { submitPoll } from '../actions'
-import InputField from './InputField';
+import { submitPoll } from '../../actions'
+import InputField from '../InputField';
 import { withRouter } from 'react-router';
 
 class PollForm extends Component {
