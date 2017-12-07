@@ -15,18 +15,6 @@ authController.get('/api/current_user', (req, res) => {
 authController.get("/login", ensureLoggedOut('/surveys'), (req, res, next) => {
   res.render("auth/login");
 });
-//
-// authController.post("/api/login", (req, res, next),
-//   passport.authenticate("local", (err, user, info) => {
-//     if (err) { return next(err); }
-//     if (!user) { return res.json(401, { "error": info.message }); }
-//
-//     req.logIn(user, function(err) {
-//       if (err) { return next(err); }
-//       res.send(req.user);
-//     })
-//     })
-// );
 
 authController.post('/api/login', function(req, res, next) {
     passport.authenticate('local', function(err, user, info) {
@@ -40,16 +28,6 @@ authController.post('/api/login', function(req, res, next) {
         })
     })(req, res, next);
 });
-
-// authController.post(
-//   "/api/login",
-//   passport.authenticate("local", {
-//     successRedirect: "/",
-//     failureRedirect: "/",
-//     failureFlash: true,
-//     passReqToCallback: true
-//   })
-// );
 
 authController.get("/signup", ensureLoggedOut('/surveys'), (req, res, next) => {
   res.render("auth/signup");

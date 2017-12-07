@@ -4,7 +4,7 @@ import { fetchPolls } from '../../actions'
 import { Link } from 'react-router-dom'
 
 class PollsIndex extends Component {
-  componentDidMount() {
+  componentWillMount() {
     this.props.fetchPolls();
   }
 

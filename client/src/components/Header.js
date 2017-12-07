@@ -6,7 +6,7 @@ import * as actions from '../actions'
 class Header extends Component {
   componentDidMount() {
     // console.log('mounted header!')
-    this.props.fetchUser();
+    // this.props.fetchUser();
   }
 
   renderContent() {
@@ -15,10 +15,10 @@ class Header extends Component {
           return;
         case false:
         console.log('False returned')
-          return <Link to ="/login">Log In</Link>
+          return <Link to ="/login" style={{ paddingRight: '15px' }}>Log In</Link>
            // <li><a href="/signup">Sign Up</a></li>
         default:
-          return <li>Welcome Back!</li>;
+          return <li style={{ paddingRight: '15px' }}>Welcome Back!</li>;
           // Insert user name here
       }
   }
@@ -29,6 +29,7 @@ class Header extends Component {
           <div className="nav-wrapper">
             <Link to='/'
               className="left brand-logo"
+              style={{ paddingLeft: '15px' }}
             >
               Pollr
             </Link>

@@ -22,19 +22,8 @@ export const addOptions = (options, pollId, history) => {
 
 export const loginSubmit = (credentials, history) => {
    axios.post('/api/login', credentials)
-    .then(() => {
-      return axios.get('/api/current_user')
-    })
-    .then((response) => {
-      return { type: FETCH_USER, payload: response.data };
-      console.log('Response!', response)
-
-    });
     history.push('/')
     window.location.reload();
-
-
-    // axios.get('/api/current_user')
 };
 
 // export const loginSubmit = (credentials, history) => {

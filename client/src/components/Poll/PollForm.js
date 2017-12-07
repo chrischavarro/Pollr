@@ -26,7 +26,3 @@ PollForm = withRouter(PollForm)
 export default PollForm = reduxForm({
   form: "pollForm"
 })(PollForm);
-
-// LoginForm = connect(mapStateToProps, {loginSubmit})(LoginForm);
-
- // LoginForm;

@@ -7,22 +7,37 @@ class Home extends Component {
   componentWillMount() {
     // this.props.fetchUser();
     // window.location.reload();
-    console.log('mounted home!')
+    // console.log('mounted home!')
+  }
+  renderLinks() {
+    if (this.props.auth) {
+      return (
+        <div style={{ marginBottom: '15px' }}>
+          <Link to="/polls/new" className="red btn-flat white-text">
+            Make a New Poll
+          </Link>
+        </div>
+      )
+    }
   }
 
   render() {
     return (
-      <div>
+      <div className="card darken-2">
+        <div className="card-content center-align ">
+        {this.renderLinks()}
 
-        <Link to="/polls/new" className="red btn-flat white-text">
-          Make a New Poll
-        </Link>
         <Link to="/polls" className="red btn-flat white-text">
           View All Polls
         </Link>
+        </div>
       </div>
     )
   }
 }
 
-export default connect(null, actions)(Home);
+function mapStateToProps({ auth }) {
+  return { auth };
+};
+
+export default connect(mapStateToProps, actions)(Home);

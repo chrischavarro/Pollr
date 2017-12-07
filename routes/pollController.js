@@ -98,9 +98,11 @@ pollController.post('/api/vote/:voteId', (req, res) => {
 // Create a new poll
 pollController.post('/api/polls', (req, res) => {
     const { question, options } = req.body;
-
+    const owner = req.user;
+    console.log('Params', req.body)
     const newPoll = new Poll({
-      question
+      question,
+      owner
     });
 
     async.each(options.split(','), (optionText, cb) => {
@@ -111,10 +113,10 @@ pollController.post('/api/polls', (req, res) => {
 
       newPoll.options.push(pollOption);
       pollOption.save((err, item) => {
-        // if (err) {
-        //   console.log('Something went wrong!', err)
-        //   return;
-        // }
+        if (err) {
+          console.log('Something went wrong!', err)
+          return;
+        }
         console.log('Poll option created!', item)
       })
     })
