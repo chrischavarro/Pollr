@@ -1,18 +1,5 @@
 import axios from 'axios';
-import { FETCH_USER, LOGIN_SUBMIT, FETCH_POLLS, CAST_VOTE, HAS_VOTED } from './types';
-
-// export const loginSubmit = (credentials, history) => async dispatch => {
-//   console.log('Login received')
-//    const request = await axios.post('/api/login', credentials)
-//
-//     dispatch({ type: FETCH_USER, payload: request.data });
-//     dispatch(fetchUser())
-//     history.push('/')
-//
-// };
-
-// export const hasVoted()
-
+import { FETCH_USER, LOGIN_SUBMIT, FETCH_POLLS, CAST_VOTE, HAS_VOTED, DELETE_POLL } from './types';
 
 export const addOptions = (options, pollId, history) => {
   axios.post(`/api/polls/${pollId}`, options)
@@ -26,20 +13,15 @@ export const loginSubmit = (credentials, history) => {
     window.location.reload();
 };
 
-// export const loginSubmit = (credentials, history) => {
-//    axios.post('/api/login', credentials)
-//     .then((response) => {
-//       return axios.get('/api/current_user')
-//     })
-//     .then((response) => {
-//       console.log('Response', response)
-//       return { type: FETCH_USER, payload: response.data }
-//     });
-//     history.push('/')
-//
-//     // axios.get('/api/current_user')
-//      // ({ type: FETCH_USER, payload: response.data });
-// };
+
+export const deletePoll = (pollId, history) => {
+   axios.post(`/api/polls/${pollId}/delete`)
+    .then(() => {
+       history.push('/');
+    })
+
+    return { type: DELETE_POLL, payload: 'Confirmed deletion' }
+}
 
 export const castVote = (vote, pollId) => async dispatch => {
   const request = await axios.post(`/api/vote/${vote}`, pollId);
@@ -86,15 +68,3 @@ export const fetchUser = () => async dispatch => {
 //   history.push('/');
 //   dispatch({ type: FETCH_POLLS, payload: res.data})
 // };
-
-// export const loginSubmit = (credentials, history) => (async (dispatch) => {
-//   try {
-//     console.log('login action received')
-//     // const response = axios.post('/api/login', credentials)
-//     // dispatch({ type: FETCH_USER, payload: response.data })
-//     // dispatch(fetchUser())
-//     // return response.data;
-//   } catch(error) {
-//     console.log(error)
-//   }
-// })

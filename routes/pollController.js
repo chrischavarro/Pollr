@@ -19,6 +19,7 @@ pollController.get('/api/polls', (req, res) => {
     });
 });
 
+// Add options to poll
 pollController.post('/api/polls/:pollId', (req, res) => {
   const { pollId } = req.params;
   const { options } = req.body;
@@ -46,6 +47,24 @@ pollController.post('/api/polls/:pollId', (req, res) => {
       })
       // Saves poll after loop has ended
       poll.save();
+    })
+})
+
+// Delete poll
+pollController.post('/api/polls/:pollId/delete', (req, res) => {
+  const { pollId } = req.params;
+
+  Poll
+    .findOneAndRemove({ _id: pollId })
+    .exec((err) => {
+      if (err) { res.send(err); }
+
+      PollOption
+        .remove( { "pollId": pollId } )
+        .exec((err) => {
+          if (err) { res.send(err); }
+          res.send('Deleted poll!')
+        })
     })
 })
 

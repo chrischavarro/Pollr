@@ -5,3 +5,4 @@ export const FETCH_POLL = 'fetch_poll';
 export const CAST_VOTE = 'cast_vote';
 export const ADD_OPTIONS = 'add_options'
 export const HAS_VOTED = 'has_voted';
+export const DELETE_POLL = 'delete_poll';

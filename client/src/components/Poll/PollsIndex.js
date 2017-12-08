@@ -32,7 +32,6 @@ class PollsIndex extends Component {
   }
 }
 
-
 function mapStateToProps({polls}) {
   return { polls }
 }

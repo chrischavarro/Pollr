@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchPoll, castVote } from '../../actions';
+import { fetchPoll, castVote, deletePoll } from '../../actions';
 import PollChart from './PollChart';
 import { Link } from 'react-router-dom'
 // import {Button, Icon, Modal} from 'react-materialize'
 import { ToastContainer, toast } from 'react-toastify';
+import { withRouter } from 'react-router';
 
 
 class PollView extends Component {
@@ -51,24 +52,24 @@ class PollView extends Component {
   }
 
 renderOwnerOptions(){
-  // const { _id } = this.props.auth
-  // const { owner } = this.props.polls
   if (this.props.auth && this.props.auth._id == this.props.polls.owner) {
     console.log(this.props.auth)
+    const { history } = this.props
     return (
       <div>
         <div>
-          <button className="waves-effect waves-light btn" style={{ marginTop: '15px'}}>
+          <button className="waves-effect waves-light btn" style={{ marginTop: '15px'}} >
             <Link to={"/polls/:pollId/edit".replace(':pollId', `${this.props.polls._id}`)} className="white-text" style={{ textDecoration: 'none'}}>
               Edit Poll
             </ Link>
           </button>
         </div>
         <div>
-          <button className="waves-effect waves-light btn" style={{ marginTop: '15px'}}>
-            <Link to={"/polls/:pollId/delete".replace(':pollId', `${this.props.polls._id}`)} className="white-text" style={{ textDecoration: 'none' }}>
+          <button className="waves-effect waves-light btn" style={{ marginTop: '15px'}}
+            onClick={() =>
+              this.props.deletePoll(this.props.polls._id, history)
+            }>
               Delete Poll
-            </Link>
           </button>
         </div>
       </div>
@@ -138,4 +139,4 @@ function mapStateToProps(state) {
   }
 };
 
-export default connect(mapStateToProps, { fetchPoll, castVote })(PollView);
+export default connect(mapStateToProps, { fetchPoll, castVote, deletePoll })(PollView);
