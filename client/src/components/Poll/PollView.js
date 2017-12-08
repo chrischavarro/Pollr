@@ -4,25 +4,23 @@ import { fetchPoll, castVote, deletePoll } from '../../actions';
 import PollChart from './PollChart';
 import { Link } from 'react-router-dom'
 // import {Button, Icon, Modal} from 'react-materialize'
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast, style } from 'react-toastify';
 import { withRouter } from 'react-router';
 
 
 class PollView extends Component {
-//   constructor(props) {
-//     super(props)
-// // remove this
-//     this.state = { hasVoted: false }
-//   }
-
   componentWillMount(){
     this.props.fetchPoll(this.props.match.params.pollId);
   }
-  notify = () => toast("Wow so easy !")
+  notify = () => {
+    if (! toast.isActive(this.toastId)) {
+      this.toastId = toast("Thanks for voting!");
+    }
+  }
 
   renderPoll() {
     const { options } = this.props.polls;
-    console.log('POLLS PROPS', this.props.polls)
+    // console.log('POLLS PROPS', this.props.polls)
 
     if (options) {
       return options.map(option => {
@@ -35,45 +33,43 @@ class PollView extends Component {
                   {
                     this.props.castVote(option._id, option.pollId);
                     this.notify();
-                    console.log(this.props.polls)
                   }
               }
               style={{ width: '30%'}}
             >
                 {option.option}
             </button>
-
           </div>
         )
       })
     }
   }
 
-renderOwnerOptions(){
-  if (this.props.auth && this.props.auth._id == this.props.polls.owner) {
-    console.log(this.props.auth)
-    const { history } = this.props
-    return (
-      <div>
+  renderOwnerOptions(){
+    if (this.props.auth && this.props.auth._id == this.props.polls.owner) {
+      console.log(this.props.auth)
+      const { history } = this.props
+      return (
         <div>
-          <button className="waves-effect waves-light btn" style={{ marginTop: '15px'}} >
-            <Link to={"/polls/:pollId/edit".replace(':pollId', `${this.props.polls._id}`)} className="white-text" style={{ textDecoration: 'none'}}>
-              Edit Poll
-            </ Link>
-          </button>
+          <div>
+            <button className="waves-effect waves-light btn" style={{ marginTop: '15px'}} >
+              <Link to={"/polls/:pollId/edit".replace(':pollId', `${this.props.polls._id}`)} className="white-text" style={{ textDecoration: 'none'}}>
+                Edit Poll
+              </ Link>
+            </button>
+          </div>
+          <div>
+            <button className="waves-effect waves-light btn" style={{ marginTop: '15px'}}
+              onClick={() =>
+                this.props.deletePoll(this.props.polls._id, history)
+              }>
+                Delete Poll
+            </button>
+          </div>
         </div>
-        <div>
-          <button className="waves-effect waves-light btn" style={{ marginTop: '15px'}}
-            onClick={() =>
-              this.props.deletePoll(this.props.polls._id, history)
-            }>
-              Delete Poll
-          </button>
-        </div>
-      </div>
-    )
+      )
+    }
   }
-}
 
   render() {
     const dataArray = [];
@@ -89,8 +85,8 @@ renderOwnerOptions(){
     	labels: labelArray,
     	datasets: [{
     		data: dataArray,
-    		backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-    		hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+    		backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#E7E9ED','#36A2EB'],
+    		hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#E7E9ED','#36A2EB']
     	}]
     };
 
@@ -101,26 +97,30 @@ renderOwnerOptions(){
             <span className="card-title">{this.props.polls.question}</span>
             <span><h5>Cast Your Vote!</h5></span>
 
-            <div className="row">
-              {this.renderPoll()}
 
-              <PollChart chartData={data} />
+            {this.renderPoll()}
 
-              <div>
-                <ToastContainer
-                      position="top-right"
-                      type="default"
-                      autoClose={5000}
-                      hideProgressBar={false}
-                      newestOnTop={false}
-                      closeOnClick
-                      pauseOnHover
-                    />
-              </div>
+            <PollChart chartData={data} />
+
+            <ToastContainer
+              position="top-center"
+              type="default"
+              autoClose={5000}
+              hideProgressBar={true}
+              newestOnTop={false}
+              closeOnClick
+              pauseOnHover={false}
+            />
+
+            <div>
+              <button className="waves-effect waves-light btn" style={{ marginTop: '15px'}}>
+                <a href="https://twitter.com/share" data-url={`${window.location.href}`} className="white-text" target="_blank">Share Poll</a>
+              </button>
+            </div>
 
               {this.renderOwnerOptions()}
 
-            </div>
+
           </div>
         </div>
       </div>

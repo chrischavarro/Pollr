@@ -101,8 +101,6 @@ pollController.post('/api/vote/:voteId', (req, res) => {
         PollOption
           .findOneAndUpdate({ _id: voteId }, {$inc: { count: 1 }}, {new: true})
           .exec((err, option) => {
-            console.log(option)
-            console.log('Vote cast!', pollId, voteId)
             poll.save();
             res.send('VOTED');
           })
