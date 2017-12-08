@@ -7,7 +7,7 @@ const async = require('async');
 
 // Get list of all polls
 pollController.get('/api/polls', (req, res) => {
-  Poll.find({})
+  Poll.find()
     .populate('options.option')
     .exec((err, polls) => {
       if (err) {
@@ -92,32 +92,34 @@ pollController.get('/api/polls/:pollId', (req, res) => {
 pollController.post('/api/vote/:voteId', (req, res) => {
   const { voteId } = req.params;
   const pollId = Object.keys(req.body).toString()
-  const userIP = req.connection.remoteAddress
+  // const userIP = req.connection.remoteAddress
 
   Poll
     .findById(pollId)
     .exec((err, poll) => {
-      if (!poll.voters.includes(userIP)) {
+      // if (!poll.voters.includes(userIP)) {
         PollOption
-        .findOneAndUpdate({ _id: voteId }, {$inc: { count: 1 }})
-        poll.voters.push(userIP);
-        poll.save();
-        res.send(userIP);
-      }
-      else {
-        console.log('Youve already voted!')
-        res.write(userIP)
-        res.end()
-      }
+          .findOneAndUpdate({ _id: voteId }, {$inc: { count: 1 }}, {new: true})
+          .exec((err, option) => {
+            console.log(option)
+            console.log('Vote cast!', pollId, voteId)
+            poll.save();
+            res.send('VOTED');
+          })
+        // poll.voters.push(userIP);
+      // }
+      // else {
+      //   console.log('Youve already voted!')
+      //   res.write(userIP)
+      //   res.end()
+      // }
     })
-
-
 })
 
 // Create a new poll
 pollController.post('/api/polls', (req, res) => {
     const { question, options } = req.body;
-    const owner = req.user;
+    const owner = req.user._id;
     console.log('Params', req.body)
     const newPoll = new Poll({
       question,
@@ -128,20 +130,20 @@ pollController.post('/api/polls', (req, res) => {
       let pollOption = new PollOption({
         option: optionText,
         pollId: newPoll._id
-      });
+      })
 
-      newPoll.options.push(pollOption);
+      newPoll.options.push(pollOption)
       pollOption.save((err, item) => {
         if (err) {
           console.log('Something went wrong!', err)
           return;
         }
-        console.log('Poll option created!', item)
+        console.log('Poll option saved!', item)
       })
     })
     newPoll.save();
 
-    // console.log('New poll created!', newPoll, newPoll.options)
+    console.log('New poll created!', newPoll, newPoll.options)
 });
 
 module.exports = pollController;

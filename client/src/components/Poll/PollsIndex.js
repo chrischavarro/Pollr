@@ -10,7 +10,7 @@ class PollsIndex extends Component {
 
   renderPolls() {
     const { polls } = this.props
-    if (polls) {
+    if (this.props.polls) {
       return polls.reverse().map(poll => {
         return (
           <div className="card darken-1" key={poll._id}>

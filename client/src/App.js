@@ -22,14 +22,14 @@ class App extends Component {
         <BrowserRouter>
           <div className="container">
             <Header />
-            <Route exact path="/" component={Home} />
-            <Route exact path="/polls" component={PollsIndex} />
             <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/polls" component={PollsIndex} />
               <Route path="/polls/new" component={PollNew} />
               <Route exact path="/polls/:pollId" component={PollView} />
               <Route exact path="/polls/:pollId/edit" component={PollEdit} />
+              <Route path="/login" component={LoginPage} />
             </Switch>
-            <Route path="/login" component={LoginPage} />
           </div>
         </BrowserRouter>
       </div>

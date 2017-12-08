@@ -9,13 +9,13 @@ import { withRouter } from 'react-router';
 
 
 class PollView extends Component {
-  constructor(props) {
-    super(props)
-// remove this
-    this.state = { hasVoted: false }
-  }
+//   constructor(props) {
+//     super(props)
+// // remove this
+//     this.state = { hasVoted: false }
+//   }
 
-  componentDidMount(){
+  componentWillMount(){
     this.props.fetchPoll(this.props.match.params.pollId);
   }
   notify = () => toast("Wow so easy !")
@@ -24,7 +24,6 @@ class PollView extends Component {
     const { options } = this.props.polls;
     console.log('POLLS PROPS', this.props.polls)
 
-    // console.log('VOTE PROPS', this.props.vote)
     if (options) {
       return options.map(option => {
         return (
@@ -48,7 +47,6 @@ class PollView extends Component {
         )
       })
     }
-
   }
 
 renderOwnerOptions(){
@@ -109,7 +107,6 @@ renderOwnerOptions(){
               <PollChart chartData={data} />
 
               <div>
-                <button onClick={this.notify}>Notify !</button>
                 <ToastContainer
                       position="top-right"
                       type="default"

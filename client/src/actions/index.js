@@ -1,6 +1,12 @@
 import axios from 'axios';
 import { FETCH_USER, LOGIN_SUBMIT, FETCH_POLLS, CAST_VOTE, HAS_VOTED, DELETE_POLL } from './types';
 
+export const fetchPolls = () => async dispatch => {
+  const request = await axios.get('/api/polls');
+  
+  dispatch({ type: FETCH_POLLS, payload: request });
+};
+
 export const addOptions = (options, pollId, history) => {
   axios.post(`/api/polls/${pollId}`, options)
   history.push(`/polls/${pollId}`);
@@ -18,6 +24,7 @@ export const deletePoll = (pollId, history) => {
    axios.post(`/api/polls/${pollId}/delete`)
     .then(() => {
        history.push('/');
+       window.location.reload();
     })
 
     return { type: DELETE_POLL, payload: 'Confirmed deletion' }
@@ -25,8 +32,8 @@ export const deletePoll = (pollId, history) => {
 
 export const castVote = (vote, pollId) => async dispatch => {
   const request = await axios.post(`/api/vote/${vote}`, pollId);
-
-  dispatch({ type: CAST_VOTE, payload: request })
+// commented out for testing purposes
+  // dispatch({ type: CAST_VOTE, payload: request })
   dispatch(fetchPoll(`${pollId}`))
 }
 
@@ -35,12 +42,6 @@ export const fetchPoll = (pollId) => async dispatch => {
 
   dispatch({ type: FETCH_POLLS, payload: request });
   // console.log('Poll action', pollId)
-};
-
-export const fetchPolls = () => async dispatch => {
-  const request = await axios.get('/api/polls');
-
-  dispatch({ type: FETCH_POLLS, payload: request });
 };
 
 export const submitPoll = (values, history) => {
