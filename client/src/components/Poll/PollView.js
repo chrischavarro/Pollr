@@ -96,7 +96,6 @@ class PollView extends Component {
             <span className="card-title">{this.props.polls.question}</span>
             <span><h5>Cast Your Vote!</h5></span>
 
-
             {this.renderPoll()}
 
             <PollChart chartData={data} />

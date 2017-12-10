@@ -33,7 +33,7 @@ authController.get("/signup", ensureLoggedOut('/surveys'), (req, res, next) => {
   res.render("auth/signup");
 });
 
-authController.post("/signup", (req, res, next) => {
+authController.post("/api/signup", (req, res, next) => {
   const { username, password } = req.body;
 
   if (username === "" || password === "") {

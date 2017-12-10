@@ -5,7 +5,8 @@ import * as actions from './actions'
 
 import Header from './components/Header';
 import Home from './components/Home';
-import LoginPage from './components/LoginPage'
+import LoginPage from './components/Login/LoginPage'
+import SignupPage from './components/Login/SignupPage'
 import PollNew from './components/Poll/PollNew';
 import PollsIndex from './components/Poll/PollsIndex';
 import PollView from './components/Poll/PollView';
@@ -29,6 +30,8 @@ class App extends Component {
               <Route exact path="/polls/:pollId" component={PollView} />
               <Route exact path="/polls/:pollId/edit" component={PollEdit} />
               <Route path="/login" component={LoginPage} />
+              <Route path="/signup" component={SignupPage} />
+
             </Switch>
           </div>
         </BrowserRouter>

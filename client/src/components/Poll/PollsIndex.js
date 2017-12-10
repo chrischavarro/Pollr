@@ -38,9 +38,11 @@ class PollsIndex extends Component {
   render() {
     return (
       <div>
-      {this.renderPolls()}
+        <h4 className="center-align">All Polls</h4>
 
-      {this.renderCreateButton()}
+        {this.renderPolls()}
+
+        {this.renderCreateButton()}
       </div>
     )
   }

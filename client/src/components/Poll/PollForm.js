@@ -9,6 +9,7 @@ class PollForm extends Component {
     const { history } = this.props
     return (
       <div>
+        <h4 className="center-align">Create Your Poll</h4>
         <Form onSubmit={this.props.handleSubmit((values) => submitPoll(values, history))}>
           <Field component={InputField} type="text" name="question" label="question" />
           <Field component={InputField} type="text" name="options" label="options (separated by commas)" />
