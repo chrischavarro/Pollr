@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PollForm from './PollForm';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router'
+// import { withRouter } from 'react-router'
+
 class PollNew extends Component {
   componentDidMount() {
     const { history } = this.props

@@ -14,9 +14,7 @@ class Header extends Component {
         case null:
           return;
         case false:
-        console.log('False returned')
           return <Link to ="/login" style={{ paddingRight: '15px' }}>Log In</Link>
-           // <li><a href="/signup">Sign Up</a></li>
         default:
           return <li style={{ paddingRight: '15px' }}>Welcome Back!</li>;
           // Insert user name here
@@ -27,7 +25,7 @@ class Header extends Component {
     return (
         <nav>
           <div className="nav-wrapper">
-            <Link to='/'
+            <Link to='/polls'
               className="left brand-logo"
               style={{ paddingLeft: '15px' }}
             >

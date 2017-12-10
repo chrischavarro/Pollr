@@ -8,9 +8,22 @@ class PollsIndex extends Component {
     this.props.fetchPolls();
   }
 
+  renderCreateButton() {
+    if (this.props.auth) {
+      return (
+        <div style={{ marginBottom: '15px' }}>
+          <Link to="/polls/new" className="red btn-flat white-text">
+            Make a New Poll
+          </Link>
+        </div>
+      )
+    }
+  }
+
   renderPolls() {
     const { polls } = this.props
-    if (this.props.polls) {
+    if (this.props.polls && this.props.polls.length > 0) {
+      // console.log('PROPS', this.props.polls)
       return polls.reverse().map(poll => {
         return (
           <div className="card darken-1" key={poll._id}>
@@ -27,13 +40,18 @@ class PollsIndex extends Component {
     return (
       <div>
       {this.renderPolls()}
+
+      {this.renderCreateButton()}
       </div>
     )
   }
 }
 
-function mapStateToProps({polls}) {
-  return { polls }
+function mapStateToProps(state) {
+  return {
+    polls: state.polls,
+    auth: state.auth
+  }
 }
 
 export default connect(mapStateToProps, { fetchPolls})(PollsIndex)

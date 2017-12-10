@@ -3,13 +3,12 @@ import { connect } from 'react-redux';
 import { fetchPoll, castVote, deletePoll } from '../../actions';
 import PollChart from './PollChart';
 import { Link } from 'react-router-dom'
-// import {Button, Icon, Modal} from 'react-materialize'
-import { ToastContainer, toast, style } from 'react-toastify';
-import { withRouter } from 'react-router';
+import { ToastContainer, toast } from 'react-toastify';
+// import { withRouter } from 'react-router';
 
 
 class PollView extends Component {
-  componentWillMount(){
+  componentDidMount(){
     this.props.fetchPoll(this.props.match.params.pollId);
   }
   notify = () => {
@@ -46,7 +45,7 @@ class PollView extends Component {
   }
 
   renderOwnerOptions(){
-    if (this.props.auth && this.props.auth._id == this.props.polls.owner) {
+    if (this.props.auth && this.props.auth._id === this.props.polls.owner) {
       console.log(this.props.auth)
       const { history } = this.props
       return (
@@ -117,10 +116,7 @@ class PollView extends Component {
                 <a href="https://twitter.com/share" data-url={`${window.location.href}`} className="white-text" target="_blank">Share Poll</a>
               </button>
             </div>
-
               {this.renderOwnerOptions()}
-
-
           </div>
         </div>
       </div>

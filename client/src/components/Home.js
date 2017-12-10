@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions'
-import { Link, Router } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 class Home extends Component {
-  componentWillMount() {
-    // this.props.fetchUser();
-    // window.location.reload();
-    // console.log('mounted home!')
-  }
   renderLinks() {
     if (this.props.auth) {
       return (

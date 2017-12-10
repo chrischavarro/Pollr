@@ -15,7 +15,7 @@ pollController.get('/api/polls', (req, res) => {
         return;
       }
       res.send(polls);
-      console.log(polls)
+      // console.log(polls)
     });
 });
 
