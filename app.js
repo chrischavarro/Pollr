@@ -6,7 +6,7 @@ const passport = require('passport');
 const keys = require('./config/keys');
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
-const index = require("./routes/index");
+// const index = require("./routes/index");
 const flash = require('connect-flash')
 const session = require('express-session');
 const pollController = require("./routes/pollController");
@@ -43,7 +43,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", index);
+// app.use("/", index);
 app.use("/", authController);
 app.use("/", pollController);
 
