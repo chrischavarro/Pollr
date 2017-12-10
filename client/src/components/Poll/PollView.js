@@ -46,7 +46,7 @@ class PollView extends Component {
 
   renderOwnerOptions(){
     if (this.props.auth && this.props.auth._id === this.props.polls.owner) {
-      console.log(this.props.auth)
+      // console.log(this.props.auth)
       const { history } = this.props
       return (
         <div>

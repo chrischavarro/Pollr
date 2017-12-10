@@ -18,13 +18,12 @@ class Home extends Component {
 
   render() {
     return (
-      <div className="card darken-2">
-        <div className="card-content center-align ">
-        {this.renderLinks()}
-
-        <Link to="/polls" className="red btn-flat white-text">
-          View All Polls
-        </Link>
+      <div style={{ textAlign: 'center' }}>
+        <h2>Welcome to Pollr!</h2>
+        <div className="card darken-3">
+          <div className="card-content center-align" style={{ fontSize: '20pt' }}>
+          <Link to ="/signup">Sign up</Link> or <Link to ="/polls">check out some polls</Link>
+          </div>
         </div>
       </div>
     )

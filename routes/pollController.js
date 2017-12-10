@@ -27,7 +27,7 @@ pollController.post('/api/polls/:pollId', (req, res) => {
 // Searches for relevant poll to update before creating new options
   const pollToUpdate = Poll.findById( pollId )
     .exec((err, poll) => {
-      console.log(poll)
+      // console.log(poll)
       // Loops through list of new options to create model instances
       async.each(options.split(','), (optionText, cb) => {
         let pollOption = new PollOption({
@@ -118,7 +118,7 @@ pollController.post('/api/vote/:voteId', (req, res) => {
 pollController.post('/api/polls', (req, res) => {
     const { question, options } = req.body;
     const owner = req.user._id;
-    console.log('Params', req.body)
+    // console.log('Params', req.body)
     const newPoll = new Poll({
       question,
       owner
@@ -136,12 +136,12 @@ pollController.post('/api/polls', (req, res) => {
           console.log('Something went wrong!', err)
           return;
         }
-        console.log('Poll option saved!', item)
+        // console.log('Poll option saved!', item)
       })
     })
     newPoll.save();
 
-    console.log('New poll created!', newPoll, newPoll.options)
+    // console.log('New poll created!', newPoll, newPoll.options)
 });
 
 module.exports = pollController;
