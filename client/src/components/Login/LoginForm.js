@@ -55,8 +55,3 @@ export default LoginForm = reduxForm({
   fields: [`username`, `password`],
   validate
 })(LoginForm);
-
-
-// LoginForm = connect(mapStateToProps, {loginSubmit})(LoginForm);
-
- // LoginForm;
