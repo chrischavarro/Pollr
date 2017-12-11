@@ -24,6 +24,22 @@ class SignupForm extends Component {
 
 SignupForm = withRouter(SignupForm)
 
+function validate(values) {
+  const errors = {};
+
+  // Validate the inputs from 'values'
+  if (!values.username) {
+    errors.username = "Enter some categories!";
+  }
+  if (!values.password) {
+    errors.password = "Enter some content";
+  }
+
+  return errors;
+}
+
 export default SignupForm = reduxForm({
+  validate,
+  fields: [`username`, `password`],
   form: "signupForm"
 })(SignupForm);

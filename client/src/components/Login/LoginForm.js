@@ -6,14 +6,20 @@ import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 
 class LoginForm extends Component {
+
+
   render() {
     const { history } = this.props
+    const {fields: { username, password }, handleSubmit} = this.props;
+    console.log(this.props)
     return (
       <div>
         <h4 className="center-align">Log In</h4>
         <Form onSubmit={this.props.handleSubmit((values) => loginSubmit(values, history))}>
-          <Field component={InputField} type="text" name="username" label="username" />
-          <Field component={InputField} type="text" name="password" label="password" />
+
+          <Field component={InputField} type="text" name="username" label="username" {...username} />
+
+          <Field component={InputField} type="text" name="password" label="password" {...password} />
           <button type="submit" className="teal btn-flat right white-text">
             Log In
           </button>
@@ -30,8 +36,24 @@ class LoginForm extends Component {
 
 LoginForm = withRouter(LoginForm)
 
+function validate(values) {
+  const errors = {};
+
+  // Validate the inputs from 'values'
+  if (!values.username) {
+    errors.username = "Enter your username!";
+  }
+  if (!values.password) {
+    errors.password = "Enter your password";
+  }
+
+  return errors;
+}
+
 export default LoginForm = reduxForm({
-  form: "loginForm"
+  form: "loginForm",
+  fields: [`username`, `password`],
+  validate
 })(LoginForm);
 
 
