@@ -11,7 +11,7 @@ export const loginSubmit = (credentials, history) => {
 export const signupSubmit = (credentials, history) => {
   axios.post('/api/signup', credentials)
   .then(() => {
-    history.push('/login');
+    loginSubmit(credentials, history)
   });
 };
 
@@ -21,9 +21,8 @@ export const fetchPolls = () => async dispatch => {
 };
 
 export const addOptions = (options, pollId, history) => {
-  axios.post(`/api/polls/${pollId}`, options);
-  history.push(`/polls/${pollId}`);
-  fetchPoll(pollId);
+  axios.post(`/api/polls/${pollId}`, options)
+    history.push(`/polls`);
 };
 
 export const deletePoll = (pollId, history) => {
@@ -45,7 +44,7 @@ export const fetchPoll = pollId => async dispatch => {
 };
 
 export const submitPoll = (values, history) => {
-  axios.post("/api/polls", values).then(res => console.log(res));
+  axios.post("/api/polls", values);
   history.push("/polls");
 };
 

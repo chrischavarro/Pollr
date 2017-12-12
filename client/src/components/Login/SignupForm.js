@@ -1,18 +1,31 @@
 import React, { Component } from 'react';
 import { reduxForm, Field, Form } from "redux-form";
 import { signupSubmit } from '../../actions'
-import InputField from '../InputField';
 import { withRouter } from 'react-router';
 
 class SignupForm extends Component {
+  renderField = (field) => (
+    <div className="input-row">
+      <input {...field.input} type="text" style={{ marginBottom: '10px' }}/>
+      {field.meta.touched && field.meta.error &&
+      <span className="error red-text" style={{ fontSize: '12px' }}>{field.meta.error}</span>}
+    </div>
+  )
+
   render() {
     const { history } = this.props
+    const {fields: { username, password }, handleSubmit} = this.props;
     return (
       <div>
         <h4 className="center-align">Sign Up</h4>
-        <Form onSubmit={this.props.handleSubmit((values) => signupSubmit(values, history))}>
-          <Field component={InputField} type="text" name="username" label="username" />
-          <Field component={InputField} type="text" name="password" label="password" />
+        <Form onSubmit={handleSubmit((values) => signupSubmit(values, history))}>
+
+          <label name="username">Username</label>
+          <Field component={this.renderField} name="username" label="username" {...username}/>
+
+          <label name="password">Password</label>
+          <Field component={this.renderField} name="password" label="password" {...password}/>
+
           <button type="submit" className="teal btn-flat right white-text">
             Sign Up
           </button>
@@ -27,12 +40,11 @@ SignupForm = withRouter(SignupForm)
 function validate(values) {
   const errors = {};
 
-  // Validate the inputs from 'values'
   if (!values.username) {
-    errors.username = "Enter some categories!";
+    errors.username = "Enter a username!";
   }
   if (!values.password) {
-    errors.password = "Enter some content";
+    errors.password = "Enter a password!";
   }
 
   return errors;

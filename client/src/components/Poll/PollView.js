@@ -19,8 +19,6 @@ class PollView extends Component {
 
   renderPoll() {
     const { options } = this.props.polls;
-    // console.log('POLLS PROPS', this.props.polls)
-
     if (options) {
       return options.map(option => {
         return (
@@ -34,7 +32,7 @@ class PollView extends Component {
                     this.notify();
                   }
               }
-              style={{ width: '30%'}}
+              style={{ width: '40%' }}
             >
                 {option.option}
             </button>

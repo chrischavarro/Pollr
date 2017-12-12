@@ -66,7 +66,7 @@ authController.post("/api/signup", (req, res, next) => {
           error: "An error occurred when signing up"
         });
       } else {
-        res.redirect("/surveys");
+        res.send(newUser);
       }
     });
   });
